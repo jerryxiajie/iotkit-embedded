@@ -32,6 +32,7 @@ SRCS_linkkit-example-sched      := app_entry.c cJSON.c linkkit/linkkit_example_s
 SRCS_linkkit-example-solo       := app_entry.c cJSON.c linkkit/linkkit_example_solo.c
 SRCS_linkkit-example-countdown  := app_entry.c cJSON.c linkkit/linkkit_example_cntdown.c
 SRCS_linkkit-example-gw         := app_entry.c cJSON.c linkkit/linkkit_example_gateway.c
+SRCS_iot_sample                 := app_entry.c cJSON.c embest/iot_sample.c
 
 # Syntax of Append_Conditional
 # ---
@@ -71,9 +72,11 @@ $(call Append_Conditional, TARGET, linkkit-example-cota, \
 
 ifneq (,$(filter -DDEPRECATED_LINKKIT,$(CFLAGS)))
 $(call Append_Conditional, TARGET, linkkit-example-solo,        DEVICE_MODEL_ENABLED, DEVICE_MODEL_GATEWAY)
+$(call Append_Conditional, TARGET, iot_sample,                  DEVICE_MODEL_ENABLED, DEVICE_MODEL_GATEWAY)
 $(call Append_Conditional, TARGET, linkkit-example-gw,          DEVICE_MODEL_ENABLED  DEVICE_MODEL_GATEWAY)
 else
 $(call Append_Conditional, TARGET, linkkit-example-solo,        DEVICE_MODEL_ENABLED)
+$(call Append_Conditional, TARGET, iot_sample,                  DEVICE_MODEL_ENABLED)
 $(call Append_Conditional, TARGET, linkkit-example-gw,          DEVICE_MODEL_ENABLED  DEVICE_MODEL_GATEWAY)
 endif
 
@@ -85,5 +88,5 @@ endif
 # Clear All Above when Build for Windows
 #
 ifneq (,$(filter -D_PLATFORM_IS_WINDOWS_,$(CFLAGS)))
-    TARGET          := mqtt-example linkkit-example-solo
+    TARGET          := mqtt-example linkkit-example-solo iot_sample
 endif

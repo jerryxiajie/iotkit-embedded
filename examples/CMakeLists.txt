@@ -4,6 +4,7 @@ INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/examples/coap)
 INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/examples/http)
 INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/examples/http2)
 INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/examples/linkkit)
+INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/examples/embest)
 INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/examples/linkkit/data)
 INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/examples/linkkit/deprecated)
 INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/examples/mqtt)
@@ -68,6 +69,11 @@ ADD_EXECUTABLE (linkkit-example-solo
     app_entry.c
     cJSON.c
     linkkit/linkkit_example_solo.c
+)
+ADD_EXECUTABLE (iot_sample
+    app_entry.c
+    cJSON.c
+    embest/iot_sample.c
 )
 ADD_EXECUTABLE (linkkit-example-countdown
     app_entry.c
@@ -138,6 +144,16 @@ TARGET_LINK_LIBRARIES (linkkit-example-solo pthread)
 ENDIF (NOT MSVC)
 IF (NOT MSVC)
 TARGET_LINK_LIBRARIES (linkkit-example-solo rt)
+ENDIF (NOT MSVC)
+
+TARGET_LINK_LIBRARIES (iot_sample iot_sdk)
+TARGET_LINK_LIBRARIES (iot_sample iot_hal)
+TARGET_LINK_LIBRARIES (iot_sample iot_tls)
+IF (NOT MSVC)
+TARGET_LINK_LIBRARIES (iot_sample pthread)
+ENDIF (NOT MSVC)
+IF (NOT MSVC)
+TARGET_LINK_LIBRARIES (iot_sample rt)
 ENDIF (NOT MSVC)
 
 TARGET_LINK_LIBRARIES (linkkit-example-countdown iot_sdk)
